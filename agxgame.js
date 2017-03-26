@@ -75,7 +75,7 @@ function hostStartGame(gameId) {
  */
 function hostNextRound(data) {
     console.log(data);
-    if(data.round <= 52 ){
+    if(data.round < 52 ){
         // Send a new set of words back to the host and players.
         sendCard(data.round, data.gameId);
     } else {
@@ -184,8 +184,11 @@ function getCardData(i){
 
     var action = card.charAt(0);
 
+    if (typeof action === 'undefined') {
+        action = ''
+}
 
-
+    console.log(action);
 
     // Package the words into a single object.
     var cardData = {
