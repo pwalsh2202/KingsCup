@@ -275,13 +275,14 @@ html, body {
     display: inline-block;
     font-size: 1.4EM;
     padding: 2%;
-    min-width: 10%;
+    max-width: 10%;
     margin: 0;
 }
 
 .playerScore .score {
     text-align: center;
     background-color: #A8FF56;
+    visibility: hidden;
 }
 
 .playerScore .playerName {

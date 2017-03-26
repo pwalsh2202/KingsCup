@@ -27,8 +27,8 @@ jQuery(function($){
             IO.socket.on('newGameCreated', IO.onNewGameCreated );
             IO.socket.on('playerJoinedRoom', IO.playerJoinedRoom );
             IO.socket.on('beginNewGame', IO.beginNewGame );
-            IO.socket.on('newWordData', IO.onNewWordData);
-            IO.socket.on('hostCheckAnswer', IO.hostCheckAnswer);
+            IO.socket.on('newCardData', IO.onNewCardData);
+            IO.socket.on('hostCheckDraw', IO.hostCheckDraw);
             IO.socket.on('gameOver', IO.gameOver);
             IO.socket.on('error', IO.error );
         },
@@ -76,21 +76,21 @@ jQuery(function($){
          * A new set of words for the round is returned from the server.
          * @param data
          */
-        onNewWordData : function(data) {
+        onNewCardData : function(data) {
             // Update the current round
             App.currentRound = data.round;
 
             // Change the word for the Host and Player
-            App[App.myRole].newWord(data);
+            App[App.myRole].newCard(data);
         },
 
         /**
          * A player answered. If this is the host, check the answer.
          * @param data
          */
-        hostCheckAnswer : function(data) {
+        hostCheckDraw : function(data) {
             if(App.myRole === 'Host') {
-                App.Host.checkAnswer(data);
+                App.Host.checkDraw(data);
             }
         },
 
@@ -179,7 +179,7 @@ jQuery(function($){
             // Player
             App.$doc.on('click', '#btnJoinGame', App.Player.onJoinClick);
             App.$doc.on('click', '#btnStart',App.Player.onPlayerStartClick);
-            App.$doc.on('click', '.btnAnswer',App.Player.onPlayerAnswerClick);
+            App.$doc.on('click', '#btnDraw',App.Player.onPlayerDrawClick);
             App.$doc.on('click', '#btnPlayerRestart', App.Player.onPlayerRestart);
         },
 
@@ -297,10 +297,10 @@ jQuery(function($){
 
                 // Prepare the game screen with new HTML
                 App.$gameArea.html(App.$hostGame);
-                App.doTextFit('#hostWord');
+                App.doTextFit('#hostCard');
 
                 // Begin the on-screen countdown timer
-                var $secondsLeft = $('#hostWord');
+                var $secondsLeft = $('#hostCard');
                 App.countDown( $secondsLeft, 5, function(){
                     IO.socket.emit('hostCountdownFinished', App.gameId);
                 });
@@ -323,51 +323,58 @@ jQuery(function($){
              * Show the word for the current round on screen.
              * @param data{{round: *, word: *, answer: *, list: Array}}
              */
-            newWord : function(data) {
+            newCard : function(data) {
                 // Insert the new word into the DOM
-                $('#hostWord').text(data.word);
-                App.doTextFit('#hostWord');
+
+                console.log(data.command);
+
+                $('#hostCard').html('<br>').text(data.card);
+
+                if (data.type == 2){
+                    $('#hostCard').append(' is for you.');
+                }else if (data.type == 3){
+                    $('#hostCard').append(' is for me.');
+                }else if (data.type == 4){
+                    $('#hostCard').append(' is for whores.');
+                }else if (data.type == 5){
+                    $('#hostCard').append('<br>You are now the thumbmaster.');
+                }else if (data.type == 6){
+                    $('#hostCard').append(' is for dicks.');
+                }else if (data.type == 7){
+                    $('#hostCard').append('<br>Point to heaven.');
+                }else if (data.type == 8){
+                    $('#hostCard').append('<br>Pick a mate.');
+                }else if (data.type == 9){
+                    $('#hostCard').append('<br>Bust a rhyme.');
+                }else if (data.type == 1){
+                    $('#hostCard').append('<br>Categories.');
+                }else if (data.type == 'J'){
+                    $('#hostCard').append('<br>Make a rule.');
+                }else if (data.type == 'Q'){
+                    $('#hostCard').append('You are now the Question Master');
+                }else if (data.type == 'K'){
+                    $('#hostCard').append('<br>Sacrifice to the Kings Cup.');
+                }else if (data.type == 'A'){
+                    $('#hostCard').append('<br>Waterfall');
+                }else(error);
+                App.doTextFit('#hostCard');
+
 
                 // Update the data for the current round
-                App.Host.currentCorrectAnswer = data.answer;
-                App.Host.currentRound = data.round;
+                App.Host.currentCorrectAnswer = data.card;
+                App.Host.currentRound = (data.round+1);
             },
 
             /**
              * Check the answer clicked by a player.
              * @param data{{round: *, playerId: *, answer: *, gameId: *}}
              */
-            checkAnswer : function(data) {
+            checkDraw : function(data) {
                 // Verify that the answer clicked is from the current round.
                 // This prevents a 'late entry' from a player whos screen has not
                 // yet updated to the current round.
-                if (data.round === App.currentRound){
+                IO.socket.emit('hostNextRound',data);            
 
-                    // Get the player's score
-                    var $pScore = $('#' + data.playerId);
-
-                    // Advance player's score if it is correct
-                    if( App.Host.currentCorrectAnswer === data.answer ) {
-                        // Add 5 to the player's score
-                        $pScore.text( +$pScore.text() + 5 );
-
-                        // Advance the round
-                        App.currentRound += 1;
-
-                        // Prepare data to send to the server
-                        var data = {
-                            gameId : App.gameId,
-                            round : App.currentRound
-                        }
-
-                        // Notify the server to start the next round.
-                        IO.socket.emit('hostNextRound',data);
-
-                    } else {
-                        // A wrong answer was submitted, so decrement the player's score.
-                        $pScore.text( +$pScore.text() - 3 );
-                    }
-                }
             },
 
 
@@ -377,26 +384,8 @@ jQuery(function($){
              */
             endGame : function(data) {
                 // Get the data for player 1 from the host screen
-                var $p1 = $('#player1Score');
-                var p1Score = +$p1.find('.score').text();
-                var p1Name = $p1.find('.playerName').text();
-
-                // Get the data for player 2 from the host screen
-                var $p2 = $('#player2Score');
-                var p2Score = +$p2.find('.score').text();
-                var p2Name = $p2.find('.playerName').text();
-
-                // Find the winner based on the scores
-                var winner = (p1Score < p2Score) ? p2Name : p1Name;
-                var tie = (p1Score === p2Score);
-
-                // Display the winner (or tie game message)
-                if(tie){
-                    $('#hostWord').text("It's a Tie!");
-                } else {
-                    $('#hostWord').text( winner + ' Wins!!' );
-                }
-                App.doTextFit('#hostWord');
+                $('#hostCard').text("Game Over");
+                App.doTextFit('#hostCard');
 
                 // Reset game data
                 App.Host.numPlayersInRoom = 0;
@@ -463,8 +452,8 @@ jQuery(function($){
             /**
              *  Click handler for the Player hitting a word in the word list.
              */
-            onPlayerAnswerClick: function() {
-                // console.log('Clicked Answer Button');
+            onPlayerDrawClick: function() {
+                console.log('Clicked Answer Button');
                 var $btn = $(this);      // the tapped button
                 var answer = $btn.val(); // The tapped word
 
@@ -476,7 +465,7 @@ jQuery(function($){
                     answer: answer,
                     round: App.currentRound
                 }
-                IO.socket.emit('playerAnswer',data);
+                IO.socket.emit('playerDraw',data);
             },
 
             /**
@@ -522,26 +511,16 @@ jQuery(function($){
              * Show the list of words for the current round.
              * @param data{{round: *, word: *, answer: *, list: Array}}
              */
-            newWord : function(data) {
+            newCard : function(data) {
                 // Create an unordered list element
-                var $list = $('<ul/>').attr('id','ulAnswers');
 
-                // Insert a list item for each word in the word list
-                // received from the server.
-                $.each(data.list, function(){
-                    $list                                //  <ul> </ul>
-                        .append( $('<li/>')              //  <ul> <li> </li> </ul>
-                            .append( $('<button/>')      //  <ul> <li> <button> </button> </li> </ul>
-                                .addClass('btnAnswer')   //  <ul> <li> <button class='btnAnswer'> </button> </li> </ul>
-                                .addClass('btn')         //  <ul> <li> <button class='btnAnswer'> </button> </li> </ul>
-                                .val(this)               //  <ul> <li> <button class='btnAnswer' value='word'> </button> </li> </ul>
-                                .html(this)              //  <ul> <li> <button class='btnAnswer' value='word'>word</button> </li> </ul>
-                            )
-                        )
-                });
-
-                // Insert the list onto the screen.
-                $('#gameArea').html($list);
+                $('#gameArea').append(
+                        // Create a button to start a new game.
+                        $('<button>Draw Again</button>')
+                            .attr('id','btnDraw')
+                            .addClass('btn')
+                            .addClass('btnGameOver')
+                    );
             },
 
             /**
@@ -576,7 +555,7 @@ jQuery(function($){
 
             // Display the starting time on the screen.
             $el.text(startTime);
-            App.doTextFit('#hostWord');
+            App.doTextFit('#hostCard');
 
             // console.log('Starting Countdown...');
 
@@ -587,7 +566,7 @@ jQuery(function($){
             function countItDown(){
                 startTime -= 1
                 $el.text(startTime);
-                App.doTextFit('#hostWord');
+                App.doTextFit('#hostCard');
 
                 if( startTime <= 0 ){
                     // console.log('Countdown Finished.');
@@ -615,7 +594,7 @@ jQuery(function($){
                     alignVert:false,
                     widthOnly:true,
                     reProcess:true,
-                    maxFontSize:300
+                    maxFontSize:100,
                 }
             );
         }
