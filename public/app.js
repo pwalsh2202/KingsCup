@@ -124,7 +124,11 @@ jQuery(function($){
         /**
          * This is used to differentiate between 'Host' and 'Player' browsers.
          */
-        myRole: '',   // 'Player' or 'Host'
+        myRole: '',
+ 
+
+
+        // 'Player' or 'Host'
 
         /**
          * The Socket.IO socket object identifier. This is unique for
@@ -282,7 +286,7 @@ jQuery(function($){
                 App.Host.numPlayersInRoom += 1;
 
                 // If two players have joined, start the game!
-                if (App.Host.numPlayersInRoom === 2) {
+                if (App.Host.numPlayersInRoom === 8) {
                     // console.log('Room is full. Almost ready!');
 
                     // Let the server know that two players are present.
@@ -314,9 +318,40 @@ jQuery(function($){
                     .find('.playerName')
                     .html(App.Host.players[1].playerName);
 
+                $('#player3Score')
+                    .find('.playerName')
+                    .html(App.Host.players[2].playerName);
+
+                $('#player4Score')
+                    .find('.playerName')
+                    .html(App.Host.players[3].playerName);
+
+                $('#player5Score')
+                    .find('.playerName')
+                    .html(App.Host.players[4].playerName);
+
+                $('#player6Score')
+                    .find('.playerName')
+                    .html(App.Host.players[5].playerName);
+
+                $('#player7Score')
+                    .find('.playerName')
+                    .html(App.Host.players[6].playerName);
+
+                $('#player8Score')
+                    .find('.playerName')
+                    .html(App.Host.players[7].playerName);
+
+
                 // Set the Score section on screen to 0 for each player.
                 $('#player1Score').find('.score').attr('id',App.Host.players[0].mySocketId);
                 $('#player2Score').find('.score').attr('id',App.Host.players[1].mySocketId);
+                $('#player3Score').find('.score').attr('id',App.Host.players[2].mySocketId);
+                $('#player4Score').find('.score').attr('id',App.Host.players[3].mySocketId);
+                $('#player5Score').find('.score').attr('id',App.Host.players[4].mySocketId);
+                $('#player6Score').find('.score').attr('id',App.Host.players[5].mySocketId);
+                $('#player7Score').find('.score').attr('id',App.Host.players[6].mySocketId);
+                $('#player8Score').find('.score').attr('id',App.Host.players[7].mySocketId);
             },
 
             /**
@@ -418,6 +453,7 @@ jQuery(function($){
              */
             myName: '',
 
+
             /**
              * Click handler for the 'JOIN' button
              */
@@ -479,7 +515,15 @@ jQuery(function($){
                 }
                 IO.socket.emit('playerRestart',data);
                 App.currentRound = 0;
-                $('#gameArea').html("<h3>Waiting on host to start new game.</h3>");
+                $('#gameArea')
+                .html("<h3>Waiting on host to start new game.</h3>")
+                .append(
+                        // Create a button to start a new game.
+                    $('<button>Ready?</button>')
+                        .attr('id','btnPlayerRestart')
+                        .addClass('btn')
+                        .addClass('btnGameOver')
+                    );
             },
 
             /**
@@ -491,10 +535,23 @@ jQuery(function($){
                     App.myRole = 'Player';
                     App.gameId = data.gameId;
 
+                    $('#gameArea')
+                    .empty();
+
+                    $('#gameArea')
+                    .append(
+                        // Create a button to start a new game.
+                        $('<button>Ready?</button>')
+                            .attr('id','btnPlayerRestart')
+                            .addClass('btn')
+                            .addClass('btnGameOver')
+                    );
+
                     $('#playerWaitingMessage')
                         .append('<p/>')
                         .text('Joined Game ' + data.gameId + '. Please wait for game to begin.');
                 }
+
             },
 
             /**
@@ -503,6 +560,7 @@ jQuery(function($){
              */
             gameCountdown : function(hostData) {
                 App.Player.hostSocketId = hostData.mySocketId;
+                App.Player.turns
                 $('#gameArea')
                     .html('<div class="gameOver">Get Ready!</div>');
             },
@@ -513,7 +571,6 @@ jQuery(function($){
              */
             newCard : function(data) {
                 // Create an unordered list element
-
                 $('#gameArea').append(
                         // Create a button to start a new game.
                         $('<button>Draw Again</button>')
