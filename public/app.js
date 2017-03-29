@@ -125,6 +125,9 @@ jQuery(function($){
          * This is used to differentiate between 'Host' and 'Player' browsers.
          */
         myRole: '',
+
+
+        playerList: [],
  
 
 
@@ -282,6 +285,7 @@ jQuery(function($){
                 // Store the new player's data on the Host.
                 App.Host.players.push(data);
 
+
                 // Increment the number of players in the room
                 App.Host.numPlayersInRoom += 1;
 
@@ -360,8 +364,6 @@ jQuery(function($){
              */
             newCard : function(data) {
                 // Insert the new word into the DOM
-
-                console.log(data.command);
 
                 $('#hostCard').html('<br>').text(data.card);
 
@@ -531,6 +533,7 @@ jQuery(function($){
              * @param data
              */
             updateWaitingScreen : function(data) {
+
                 if(IO.socket.socket.sessionid === data.mySocketId){
                     App.myRole = 'Player';
                     App.gameId = data.gameId;
@@ -542,9 +545,12 @@ jQuery(function($){
                     .append(
                         // Create a button to start a new game.
                         $('<button>Ready?</button>')
-                            .attr('id','btnPlayerRestart')
                             .addClass('btn')
                             .addClass('btnGameOver')
+                            .on('click', function() {
+                                IO.socket.emit('hostRoomFull',App.gameId)
+                            })
+
                     );
 
                     $('#playerWaitingMessage')
@@ -560,7 +566,6 @@ jQuery(function($){
              */
             gameCountdown : function(hostData) {
                 App.Player.hostSocketId = hostData.mySocketId;
-                App.Player.turns
                 $('#gameArea')
                     .html('<div class="gameOver">Get Ready!</div>');
             },
@@ -570,7 +575,11 @@ jQuery(function($){
              * @param data{{round: *, word: *, answer: *, list: Array}}
              */
             newCard : function(data) {
-                // Create an unordered list element
+
+                console.log(data.turn)
+                $('#gameArea')
+                    .empty();
+                if (data.players[data.turn] === App.mySocketId){
                 $('#gameArea').append(
                         // Create a button to start a new game.
                         $('<button>Draw Again</button>')
@@ -578,6 +587,8 @@ jQuery(function($){
                             .addClass('btn')
                             .addClass('btnGameOver')
                     );
+                }
+
             },
 
             /**

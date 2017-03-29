@@ -42,6 +42,8 @@ function hostCreateNewGame() {
 
     // Join the Room and wait for the players
     this.join(thisGameId.toString());
+
+    players = [];
 };
 
 /*
@@ -112,7 +114,13 @@ function playerJoinGame(data) {
         // Join the room
         sock.join(data.gameId);
 
+        players.push(data.mySocketId);
+
         console.log('Player ' + data.playerName + ' joining game: ' + data.gameId );
+
+        console.log(players);
+
+
 
         // Emit an event notifying the clients that the player has joined the room.
         io.sockets.in(data.gameId).emit('playerJoinedRoom', data);
@@ -133,7 +141,6 @@ function playerDraw(data) {
     // The player's answer is attached to the data object.  \
     // Emit an event with the answer so it can be checked by the 'Host'
     io.sockets.in(data.gameId).emit('hostCheckDraw', data);
-    console.log(data);
 }
 
 /**
@@ -190,14 +197,24 @@ function getCardData(i){
 
     // Package the words into a single object.
     var cardData = {
-        round: (round += 1),
-        card : card,   // Displayed Word
-        draw: card,
-        type: action,
-
+        round:      (round += 1),
+        card :       card,   // Displayed Word
+        draw:        card,
+        type:        action,
+        players:     players,
+        turn:        (turn += 1),
     };
+ 
+    if (cardData.turn >= (cardData.players.length - 1)){
+        turn = -1;
+    }
+
     return cardData
 }
+
+var players = [];
+
+var turn = -1;
 
 var round = 0;
 
