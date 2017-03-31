@@ -660,7 +660,7 @@ jQuery(function($){
                 {
                     alignHoriz:true,
                     alignVert:false,
-                    widthOnly:true,
+                    widthOnly:false,
                     reProcess:true,
                     maxFontSize:100,
                 }
