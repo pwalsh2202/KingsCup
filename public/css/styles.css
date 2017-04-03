@@ -128,22 +128,27 @@ html, body {
     font-family: 'Press Start 2P', cursive;
     margin: 0 auto;
     text-align: center;
+    text-shadow: -3px 0 rgb(239, 196, 22), 0 3px rgb(239, 196, 22), 3px 0 rgb(239, 196, 22), 0 -3px rgb(239, 196, 22);
 }
 
 .createGameWrapper .info{
     color: #ECFFE0;
+    line-height: 150%;
     font-weight: 400;
     font-size: 2em;
     margin-top: 1.5em;
 }
 
 .createGameWrapper{
-    color: #AE37B2;
+    color: #ECFFE0;
     font-weight: 300;
+    width: 80%;
 }
 
 .info label {
     display: block;
+    padding: 10px;
+    padding-top: 15px;
 }
 
 .info input {
@@ -152,7 +157,7 @@ html, body {
     width: 200px;
     height: 60px;
     font-family: 'Press Start 2P', cursive;
-    color: #A22FB0;
+    color: #ECFFE0;
     font-weight: 300;
     font-size: 25px;
     border: 1px dotted white;
@@ -237,9 +242,10 @@ html, body {
    ****************************** */
 
 /* Absolute Centering: http://coding.smashingmagazine.com/2013/08/09/absolute-horizontal-vertical-centering-css/ */
-#wordArea {
+#cardArea {
     font-family: 'Press Start 2P', cursive;
     font-weight: 400;
+    font-size: 200px;
     position: absolute;
     height: 50%;
     width: 50%;
@@ -250,12 +256,12 @@ html, body {
     right: 0;
 }
 
-#hostWord {
+#hostCard {
     height: 100%;
     width: 100%;
 }
 
-#hostWord h2, #btnPlayerRestart h3 {
+#hostCard h2, #btnPlayerRestart h3 {
     font-size: 161px;
     line-height: 1em;
     font-family: 'Press Start 2P', cursive;

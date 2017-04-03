@@ -388,7 +388,7 @@ jQuery(function($){
                 }else if (data.type == 'J'){
                     $('#hostCard').append('<br>Make a rule.');
                 }else if (data.type == 'Q'){
-                    $('#hostCard').append('You are now the Question Master');
+                    $('#hostCard').append('<br>You are now the Question Master');
                 }else if (data.type == 'K'){
                     $('#hostCard').append('<br>Sacrifice to the Kings Cup.');
                 }else if (data.type == 'A'){
@@ -582,7 +582,7 @@ jQuery(function($){
                 if (data.players[data.turn] === App.mySocketId){
                 $('#gameArea').append(
                         // Create a button to start a new game.
-                        $('<button>Draw Again</button>')
+                        $('<button>Your turn!</button>')
                             .attr('id','btnDraw')
                             .addClass('btn')
                             .addClass('btnGameOver')
@@ -660,9 +660,9 @@ jQuery(function($){
                 {
                     alignHoriz:true,
                     alignVert:false,
-                    widthOnly:false,
+                    heightOnly:false,
                     reProcess:true,
-                    maxFontSize:100,
+                    maxFontSize:500,
                 }
             );
         }
