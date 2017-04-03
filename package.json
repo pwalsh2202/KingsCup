@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "cardsJS": "^1.1.1",
     "express": "3.x",
     "socket.io": "0.9"
   },

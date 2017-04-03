@@ -219,7 +219,7 @@ var turn = -1;
 var round = 0;
 
 var newDeck = {
-    suits: ['♠', '♥', '♣','♦'],
+    suits: ['S', 'H', 'C','D'],
     faces: ['A', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K'],
     deck: [],
     generate_deck: function () {

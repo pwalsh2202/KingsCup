@@ -365,34 +365,34 @@ jQuery(function($){
             newCard : function(data) {
                 // Insert the new word into the DOM
 
-                $('#hostCard').html('<br>').text(data.card);
+                $('#hostCard').html("<br><img class='card' src='cards/"+data.card+".svg'>");
 
                 if (data.type == 2){
-                    $('#hostCard').append(' is for you.');
+                    $('#hostCard').append('<p>is for you.');
                 }else if (data.type == 3){
-                    $('#hostCard').append(' is for me.');
+                    $('#hostCard').append('<p>is for me.');
                 }else if (data.type == 4){
-                    $('#hostCard').append(' is for whores.');
+                    $('#hostCard').append('<p>is for whores.');
                 }else if (data.type == 5){
-                    $('#hostCard').append('<br>You are now the thumbmaster.');
+                    $('#hostCard').append('<p>You are now the Thumb Master.');
                 }else if (data.type == 6){
-                    $('#hostCard').append(' is for dicks.');
+                    $('#hostCard').append('<p>is for dicks.');
                 }else if (data.type == 7){
-                    $('#hostCard').append('<br>Point to heaven.');
+                    $('#hostCard').append('<p>Point to heaven.');
                 }else if (data.type == 8){
-                    $('#hostCard').append('<br>Pick a mate.');
+                    $('#hostCard').append('<p>Pick a mate.');
                 }else if (data.type == 9){
-                    $('#hostCard').append('<br>Bust a rhyme.');
+                    $('#hostCard').append('<p>Bust a rhyme.');
                 }else if (data.type == 1){
-                    $('#hostCard').append('<br>Categories.');
+                    $('#hostCard').append('<p>Categories.');
                 }else if (data.type == 'J'){
-                    $('#hostCard').append('<br>Make a rule.');
+                    $('#hostCard').append('<p>Make a rule.');
                 }else if (data.type == 'Q'){
-                    $('#hostCard').append('<br>You are now the Question Master');
+                    $('#hostCard').append('<p>You are now the Question Master.');
                 }else if (data.type == 'K'){
-                    $('#hostCard').append('<br>Sacrifice to the Kings Cup.');
+                    $('#hostCard').append('<p>Sacrifice to the Kings Cup.');
                 }else if (data.type == 'A'){
-                    $('#hostCard').append('<br>Waterfall');
+                    $('#hostCard').append('<p>Waterfall!');
                 }else(error);
                 App.doTextFit('#hostCard');
 
@@ -659,7 +659,6 @@ jQuery(function($){
                 $(el)[0],
                 {
                     alignHoriz:true,
-                    alignVert:false,
                     heightOnly:false,
                     reProcess:true,
                     maxFontSize:500,

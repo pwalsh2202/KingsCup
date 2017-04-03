@@ -241,6 +241,10 @@ html, body {
        (host-game-template)
    ****************************** */
 
+.card {
+    height: 125px;
+}
+
 /* Absolute Centering: http://coding.smashingmagazine.com/2013/08/09/absolute-horizontal-vertical-centering-css/ */
 #cardArea {
     font-family: 'Press Start 2P', cursive;
@@ -259,6 +263,8 @@ html, body {
 #hostCard {
     height: 100%;
     width: 100%;
+    color: #ECFFE0;
+    text-shadow: -3px 0 rgb(239, 196, 22), 0 3px rgb(239, 196, 22), 3px 0 rgb(239, 196, 22), 0 -3px rgb(239, 196, 22);
 }
 
 #hostCard h2, #btnPlayerRestart h3 {
