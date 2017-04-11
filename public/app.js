@@ -365,7 +365,7 @@ jQuery(function($){
             newCard : function(data) {
                 // Insert the new word into the DOM
 
-                $('#hostCard').html("<br><img class='card' src='cards/"+data.card+".svg'>");
+                $('#hostCard').html(App.Host.players[data.turn].playerName + " drew:<p><img class='card' src='cards/"+data.card+".svg'>");
 
                 if (data.type == 2){
                     $('#hostCard').append('<p>is for you.');
