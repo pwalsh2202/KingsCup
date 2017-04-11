@@ -290,12 +290,10 @@ html, body {
     margin: 0;
     font-family: 'Press Start 2P', cursive;
     font-weight: 400;
-    height: 100%;
 }
 
 .playerScore span {
     display: inline-block;
-    font-size: 1.4EM;
     padding: 2%;
     max-width: 10%;
     margin: 0;
@@ -308,7 +306,6 @@ html, body {
 }
 
 .playerScore .playerName {
-    width: 77%;
     background-color: #ECFFE0;
 }
 
@@ -317,6 +314,33 @@ html, body {
 }
 
 #player2Score {
+    float: right;
+    text-align: right;
+}
+
+#player3Score {
+    float: left;
+}
+
+#player4Score {
+    float: right;
+    text-align: right;
+}
+
+#player5Score {
+    float: left;
+}
+
+#player6Score {
+    float: right;
+    text-align: right;
+}
+
+#player7Score {
+    float: left;
+}
+
+#player8Score {
     float: right;
     text-align: right;
 }
