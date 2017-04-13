@@ -365,7 +365,7 @@ jQuery(function($){
             newCard : function(data) {
                 // Insert the new word into the DOM
 
-                $('#hostCard').html(App.Host.players[data.turn].playerName + " drew:<p><img class='card' src='cards/"+data.card+".svg'>");
+                $('#hostCard').html("<p><img class='card' src='cards/"+data.card+".svg'>");
 
                 if (data.type == 2){
                     $('#hostCard').append('<p>is for you.');
@@ -374,7 +374,7 @@ jQuery(function($){
                 }else if (data.type == 4){
                     $('#hostCard').append('<p>is for whores.');
                 }else if (data.type == 5){
-                    $('#hostCard').append(App.Host.players[data.turn].playerName +' is now the Thumb Master.');
+                    $('#hostCard').append((App.Host.players[data.turn].playerName) +' is now the Thumb Master.');
                 }else if (data.type == 6){
                     $('#hostCard').append('<p>is for dicks.');
                 }else if (data.type == 7){
@@ -388,9 +388,9 @@ jQuery(function($){
                 }else if (data.type == 'J'){
                     $('#hostCard').append('<p>Make a rule.');
                 }else if (data.type == 'Q'){
-                    $('#hostCard').append(App.Host.players[data.turn].playerName +' is now the Question Master.');
+                    $('#hostCard').append((App.Host.players[data.turn].playerName) +' is now the Question Master.');
                 }else if (data.type == 'K'){
-                    $('#hostCard').append(App.Host.players[data.turn].playerName +' must sacrifice to the Kings Cup.');
+                    $('#hostCard').append((App.Host.players[data.turn].playerName) +' must sacrifice to the Kings Cup.');
                 }else if (data.type == 'A'){
                     $('#hostCard').append('<p>Waterfall!');
                 }else(error);
@@ -579,20 +579,22 @@ jQuery(function($){
                 console.log(data.turn)
                 $('#gameArea')
                     .empty();
-                if (data.players[data.turn] === App.mySocketId){
-                if (data.type == 5){
-                    $('#gameArea')
-                        .append('<div class="gameOver"><p>You are now the Thumb Master!</div>');
-                }else if (data.type == 8){
-                    $('#gameArea')
-                        .append('<div class="gameOver"><p>Who will be your mate?</div>');
-                }else if (data.type == 'J'){
-                    $('#gameArea')
-                        .append('<div class="gameOver"><p>What is your rule?</div>');
-                }else if (data.type == 'Q'){
-                    $('#gameArea')
-                        .append('<div class="gameOver"><p>You are now the Question Master!</div>');
+                if (data.players[data.turn - 1] === App.mySocketId){
+                    if (data.type == 5){
+                        $('#gameArea')
+                            .append('<div class="gameOver"><p>You are now the Thumb Master!</div>');
+                    }else if (data.type == 8){
+                        $('#gameArea')
+                            .append('<div class="gameOver"><p>Who will be your mate?</div>');
+                    }else if (data.type == 'J'){
+                        $('#gameArea')
+                            .append('<div class="gameOver"><p>What is your rule?</div>');
+                    }else if (data.type == 'Q'){
+                        $('#gameArea')
+                            .append('<div class="gameOver"><p>You are now the Question Master!</div>');
+                    }
                 }
+                if (data.players[data.turn] === App.mySocketId){
                 $('#gameArea').append(
                         // Create a button to start a new game.
                     $('<button>Your turn!</button>')
@@ -653,7 +655,6 @@ jQuery(function($){
 
                 if( startTime <= 0 ){
                     // console.log('Countdown Finished.');
-
                     // Stop the timer and do the callback.
                     clearInterval(timer);
                     callback();
