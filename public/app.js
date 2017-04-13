@@ -374,7 +374,7 @@ jQuery(function($){
                 }else if (data.type == 4){
                     $('#hostCard').append('<p>is for whores.');
                 }else if (data.type == 5){
-                    $('#hostCard').append('<p>You are now the Thumb Master.');
+                    $('#hostCard').append(App.Host.players[data.turn].playerName +' is now the Thumb Master.');
                 }else if (data.type == 6){
                     $('#hostCard').append('<p>is for dicks.');
                 }else if (data.type == 7){
@@ -388,9 +388,9 @@ jQuery(function($){
                 }else if (data.type == 'J'){
                     $('#hostCard').append('<p>Make a rule.');
                 }else if (data.type == 'Q'){
-                    $('#hostCard').append('<p>You are now the Question Master.');
+                    $('#hostCard').append(App.Host.players[data.turn].playerName +' is now the Question Master.');
                 }else if (data.type == 'K'){
-                    $('#hostCard').append('<p>Sacrifice to the Kings Cup.');
+                    $('#hostCard').append(App.Host.players[data.turn].playerName +' must sacrifice to the Kings Cup.');
                 }else if (data.type == 'A'){
                     $('#hostCard').append('<p>Waterfall!');
                 }else(error);
@@ -580,13 +580,28 @@ jQuery(function($){
                 $('#gameArea')
                     .empty();
                 if (data.players[data.turn] === App.mySocketId){
+                if (data.type == 5){
+                    $('#gameArea')
+                        .append('<div class="gameOver"><p>You are now the Thumb Master!</div>');
+                }else if (data.type == 8){
+                    $('#gameArea')
+                        .append('<div class="gameOver"><p>Who will be your mate?</div>');
+                }else if (data.type == 'J'){
+                    $('#gameArea')
+                        .append('<div class="gameOver"><p>What is your rule?</div>');
+                }else if (data.type == 'Q'){
+                    $('#gameArea')
+                        .append('<div class="gameOver"><p>You are now the Question Master!</div>');
+                }
                 $('#gameArea').append(
                         // Create a button to start a new game.
-                        $('<button>Your turn!</button>')
-                            .attr('id','btnDraw')
-                            .addClass('btn')
-                            .addClass('btnGameOver')
+                    $('<button>Your turn!</button>')
+                        .attr('id','btnDraw')
+                        .addClass('btn')
+                        .addClass('btnGameOver')
+
                     );
+
                 }
 
             },
