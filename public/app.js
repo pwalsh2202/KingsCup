@@ -321,7 +321,7 @@ jQuery(function($){
                 $('#player2Score')
                     .find('.playerName')
                     .html(App.Host.players[1].playerName);
-
+                
                 $('#player3Score')
                     .find('.playerName')
                     .html(App.Host.players[2].playerName);

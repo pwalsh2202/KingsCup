@@ -6,6 +6,10 @@
 Dark Purple : #A22FB0
 
 */
+html {
+    position: relative;
+    min-height: 100%;
+}
 
 html, body {
     background-color: #78BD4C;
@@ -268,7 +272,7 @@ html, body {
 }
 
 #hostCard h2, #btnPlayerRestart h3 {
-    font-size: 161px;
+    font-size: 150px;
     line-height: 1em;
     font-family: 'Press Start 2P', cursive;
     font-weight: 400;
@@ -309,42 +313,6 @@ html, body {
     background-color: #ECFFE0;
 }
 
-#player1Score {
-    float: left;
-}
-
-#player2Score {
-    float: right;
-    text-align: right;
-}
-
-#player3Score {
-    float: left;
-}
-
-#player4Score {
-    float: right;
-    text-align: right;
-}
-
-#player5Score {
-    float: left;
-}
-
-#player6Score {
-    float: right;
-    text-align: right;
-}
-
-#player7Score {
-    float: left;
-}
-
-#player8Score {
-    float: right;
-    text-align: right;
-}
-
 
 /* ******************************
           TITLE SCREEN
@@ -366,4 +334,29 @@ html, body {
     bottom: 0;
 }
 
+/* ******************************
+          Footer
+     (gamearea)
+   ****************************** */
+#gameInfo {
+    position: absolute;
+    left: 0;
+    height: 200px;
+    width: 100%;
+    overflow:hidden;
+    text-align: center;
+}
+
+.avatar img {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 30%;
+}
+
+.playerName {
+    vertical-align: top;
+    font-family: 'Press Start 2P', cursive;
+    color: white;
+}
 
