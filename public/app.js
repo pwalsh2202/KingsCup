@@ -231,6 +231,9 @@ jQuery(function($){
              */
             currentCorrectAnswer: '',
 
+
+            kings: 0,
+
             /**
              * Handler for the "Start" button on the Title Screen.
              */
@@ -248,6 +251,7 @@ jQuery(function($){
                 App.mySocketId = data.mySocketId;
                 App.myRole = 'Host';
                 App.Host.numPlayersInRoom = 0;
+                App.Host.kings = 0;
 
                 App.Host.displayNewGameScreen();
                 // console.log("Game started with ID: " + App.gameId + ' by host: ' + App.mySocketId);
@@ -314,38 +318,29 @@ jQuery(function($){
                 });
 
                 // Display the players' names on screen
-                $('#player1Score')
-                    .find('.playerName')
+                $('#player1')
                     .html(App.Host.players[0].playerName);
 
-                $('#player2Score')
-                    .find('.playerName')
+                $('#player2')
                     .html(App.Host.players[1].playerName);
                 
-                $('#player3Score')
-                    .find('.playerName')
+                $('#player3')
                     .html(App.Host.players[2].playerName);
 
-                $('#player4Score')
-                    .find('.playerName')
+                $('#player4')
                     .html(App.Host.players[3].playerName);
 
-                $('#player5Score')
-                    .find('.playerName')
+                $('#player5')
                     .html(App.Host.players[4].playerName);
 
-                $('#player6Score')
-                    .find('.playerName')
+                $('#player6')
                     .html(App.Host.players[5].playerName);
 
-                $('#player7Score')
-                    .find('.playerName')
+                $('#player7')
                     .html(App.Host.players[6].playerName);
 
-                $('#player8Score')
-                    .find('.playerName')
+                $('#player8')
                     .html(App.Host.players[7].playerName);
-
 
                 // Set the Score section on screen to 0 for each player.
                 $('#player1Score').find('.score').attr('id',App.Host.players[0].mySocketId);
@@ -390,7 +385,13 @@ jQuery(function($){
                 }else if (data.type == 'Q'){
                     $('#hostCard').append((App.Host.players[data.turn].playerName) +' is now the Question Master.');
                 }else if (data.type == 'K'){
-                    $('#hostCard').append((App.Host.players[data.turn].playerName) +' must sacrifice to the Kings Cup.');
+                    App.Host.kings++;
+                    $('#hostCard')
+                        .append((App.Host.players[data.turn].playerName) +' must sacrifice to the Kings Cup.');
+                    if (App.Host.kings === 4){
+                        $('#hostCard')
+                            .append('<p> As the final sacrifice, ' + (App.Host.players[data.turn].playerName) + ' must now accept the Kings Cup.');
+                    };
                 }else if (data.type == 'A'){
                     $('#hostCard').append('<p>Waterfall!');
                 }else(error);

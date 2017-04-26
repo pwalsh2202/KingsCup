@@ -341,7 +341,7 @@ html, body {
 #gameInfo {
     position: absolute;
     left: 0;
-    height: 150px;
+    height: 45%;
     width: 100%;
     overflow:hidden;
     text-align: center;
