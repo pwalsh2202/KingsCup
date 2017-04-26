@@ -317,6 +317,30 @@ jQuery(function($){
                     IO.socket.emit('hostCountdownFinished', App.gameId);
                 });
 
+                $(document).ready(function() {
+                        if(App.Host.players.length < 2){
+                            $('td:nth-child(2)').hide();
+                        }
+                        if(App.Host.players.length < 3){
+                            $('td:nth-child(3)').hide();
+                        }
+                         if(App.Host.players.length < 4){
+                            $('td:nth-child(4)').hide();
+                        }
+                        if(App.Host.players.length < 5){
+                            $('td:nth-child(5)').hide();
+                        }
+                         if(App.Host.players.length < 6){
+                            $('td:nth-child(6)').hide();
+                        }
+                        if(App.Host.players.length < 7){
+                            $('td:nth-child(7)').hide();
+                        }
+                         if(App.Host.players.length < 8){
+                            $('td:nth-child(8)').hide();
+                        }
+                });
+
                 // Display the players' names on screen
                 $('#player1')
                     .html(App.Host.players[0].playerName);
