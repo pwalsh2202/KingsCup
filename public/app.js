@@ -387,15 +387,15 @@ jQuery(function($){
                 $('#hostCard').html("<p><img class='card' src='cards/"+data.card+".svg'>");
 
                 if (data.type == 2){
-                    $('#hostCard').append('<p>is for you.');
+                    $('#hostCard').append('<p>Two is for you.');
                 }else if (data.type == 3){
-                    $('#hostCard').append('<p>is for me.');
+                    $('#hostCard').append('<p>Three is for me.');
                 }else if (data.type == 4){
-                    $('#hostCard').append('<p>is for whores.');
+                    $('#hostCard').append('<p>Fours are for whores.');
                 }else if (data.type == 5){
                     $('#hostCard').append((App.Host.players[data.turn].playerName) +' is now the Thumb Master.');
                 }else if (data.type == 6){
-                    $('#hostCard').append('<p>is for dicks.');
+                    $('#hostCard').append('<p>Six is for dicks.');
                 }else if (data.type == 7){
                     $('#hostCard').append('<p>Point to heaven.');
                 }else if (data.type == 8){
